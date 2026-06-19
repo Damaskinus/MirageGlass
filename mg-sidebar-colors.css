@@ -1,0 +1,99 @@
+/* ================================================================
+   Mirage Glass — Sidebar Colors
+   Classes injetadas via dataviewjs na Home.md
+   ================================================================ */
+
+/* Base: transição suave */
+.nav-folder-title,
+.nav-file-title {
+  transition: color 0.15s ease, background 0.15s ease;
+  border-radius: 6px;
+}
+
+/* _Templates — cinza-azulado */
+body .nav-folder.mg-_Templates > .nav-folder-title {
+  color: #5a6478 !important;
+  background: rgba(107, 122, 143, 0.12) !important;
+}
+body .nav-folder.mg-_Templates .nav-folder > .nav-folder-title,
+body .nav-folder.mg-_Templates .nav-file-title {
+  color: #7a8799 !important;
+}
+
+/* Atlas — verde-azulado */
+body .nav-folder.mg-Atlas > .nav-folder-title {
+  color: #1e7e6e !important;
+  background: rgba(30, 126, 110, 0.12) !important;
+}
+body .nav-folder.mg-Atlas .nav-folder > .nav-folder-title,
+body .nav-folder.mg-Atlas .nav-file-title {
+  color: #2a9d8a !important;
+}
+
+/* Calendar — roxo suave */
+body .nav-folder.mg-Calendar > .nav-folder-title {
+  color: #6b4fa8 !important;
+  background: rgba(107, 79, 168, 0.12) !important;
+}
+body .nav-folder.mg-Calendar .nav-folder > .nav-folder-title,
+body .nav-folder.mg-Calendar .nav-file-title {
+  color: #8a6fc4 !important;
+}
+
+/* Personal — azul principal */
+body .nav-folder.mg-Personal > .nav-folder-title {
+  color: #2d6fa8 !important;
+  background: rgba(45, 111, 168, 0.12) !important;
+}
+body .nav-folder.mg-Personal .nav-folder > .nav-folder-title,
+body .nav-folder.mg-Personal .nav-file-title {
+  color: #4a8ec4 !important;
+}
+
+/* IT — âmbar/laranja */
+body .nav-folder.mg-IT > .nav-folder-title {
+  color: #b05a1a !important;
+  background: rgba(176, 90, 26, 0.12) !important;
+}
+body .nav-folder.mg-IT .nav-folder > .nav-folder-title,
+body .nav-folder.mg-IT .nav-file-title {
+  color: #c97830 !important;
+}
+
+/* Obsidian — verde-esmeralda */
+body .nav-folder.mg-Obsidian > .nav-folder-title {
+  color: #0f766e !important;
+  background: rgba(15, 118, 110, 0.12) !important;
+}
+body .nav-folder.mg-Obsidian .nav-folder > .nav-folder-title,
+body .nav-folder.mg-Obsidian .nav-file-title {
+  color: #14a89e !important;
+}
+
+/* Work — vermelho-rosado */
+body .nav-folder.mg-Work > .nav-folder-title {
+  color: #c0444a !important;
+  background: rgba(192, 68, 74, 0.12) !important;
+}
+body .nav-folder.mg-Work .nav-folder > .nav-folder-title,
+body .nav-folder.mg-Work .nav-file-title {
+  color: #d46870 !important;
+}
+
+/* Hover nas pastas raiz — intensifica o fundo */
+body .nav-folder.mg-_Templates > .nav-folder-title:hover { background: rgba(107, 122, 143, 0.20) !important; }
+body .nav-folder.mg-Atlas     > .nav-folder-title:hover { background: rgba(30, 126, 110, 0.20) !important; }
+body .nav-folder.mg-Calendar  > .nav-folder-title:hover { background: rgba(107, 79, 168, 0.20) !important; }
+body .nav-folder.mg-Personal  > .nav-folder-title:hover { background: rgba(45, 111, 168, 0.20) !important; }
+body .nav-folder.mg-IT        > .nav-folder-title:hover { background: rgba(176, 90, 26, 0.20) !important; }
+body .nav-folder.mg-Obsidian  > .nav-folder-title:hover { background: rgba(15, 118, 110, 0.20) !important; }
+body .nav-folder.mg-Work      > .nav-folder-title:hover { background: rgba(192, 68, 74, 0.20) !important; }
+
+/* Ativo: glow colorido */
+body .nav-folder.mg-_Templates > .nav-folder-title.is-active { box-shadow: inset 2px 0 0 #6b7a8f; }
+body .nav-folder.mg-Atlas      > .nav-folder-title.is-active { box-shadow: inset 2px 0 0 #1e7e6e; }
+body .nav-folder.mg-Calendar   > .nav-folder-title.is-active { box-shadow: inset 2px 0 0 #6b4fa8; }
+body .nav-folder.mg-Personal   > .nav-folder-title.is-active { box-shadow: inset 2px 0 0 #2d6fa8; }
+body .nav-folder.mg-IT         > .nav-folder-title.is-active { box-shadow: inset 2px 0 0 #b05a1a; }
+body .nav-folder.mg-Obsidian   > .nav-folder-title.is-active { box-shadow: inset 2px 0 0 #0f766e; }
+body .nav-folder.mg-Work       > .nav-folder-title.is-active { box-shadow: inset 2px 0 0 #c0444a; }

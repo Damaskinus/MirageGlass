@@ -1,0 +1,954 @@
+/* ============================================================================
+   MIRAGE GLASS — Tema Obsidian
+   ----------------------------------------------------------------------------
+   Estética: glassmorphism light/dark com accent azul vívido e glow suave.
+   Três paletas: Mirage Dawn (light) · Navy Mirage (dark) · Royal Charcoal (dark)
+
+   Instalação:
+     1. Copiar a pasta MirageGlass/ pra .obsidian/themes/
+     2. Configurações → Aparência → Tema → "Mirage Glass"
+     3. (Opcional) Style Settings → "Mirage Glass" pra ajustar paleta e intensidades
+   ============================================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,200..900;1,8..60,200..900&display=swap');
+
+/* @settings
+name: Mirage Glass
+id: mirage-glass
+settings:
+  -
+    id: mg-dark-palette
+    title: Paleta (modo escuro)
+    description: Escolhe entre Navy Mirage (padrão) e Royal Charcoal
+    type: class-select
+    default: navy-mirage
+    allowEmpty: false
+    options:
+      - value: navy-mirage
+        label: Navy Mirage
+      - value: royal-charcoal
+        label: Royal Charcoal
+  -
+    id: mg-blur
+    title: Intensidade do blur (glass)
+    type: variable-number-slider
+    default: 12
+    min: 0
+    max: 30
+    step: 1
+    format: 'px'
+  -
+    id: mg-radius
+    title: Raio dos cards
+    type: variable-number-slider
+    default: 14
+    min: 4
+    max: 24
+    step: 1
+    format: 'px'
+  -
+    id: mg-glow
+    title: Intensidade do glow azul
+    type: variable-number-slider
+    default: 0.35
+    min: 0
+    max: 1
+    step: 0.05
+*/
+
+
+/* ============================================================================
+   1. VARIÁVEIS GLOBAIS
+   ============================================================================ */
+
+body {
+  /* Tunáveis via Style Settings */
+  --mg-blur: 12px;
+  --mg-radius: 14px;
+  --mg-glow: 0.35;
+
+  /* Derivados */
+  --mg-radius-sm: calc(var(--mg-radius) * 0.55);
+  --mg-radius-lg: calc(var(--mg-radius) * 1.4);
+
+  /* Transições */
+  --mg-trans-fast: 0.15s ease;
+  --mg-trans-med: 0.25s ease;
+
+  /* Tipografia — Source Serif 4 (Google Fonts) com fallbacks serif */
+  --font-text-size: 16px;
+  --font-text-theme: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-interface-theme: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --font-monospace-theme: "JetBrains Mono", "SF Mono", "Fira Code", Menlo, monospace;
+
+  /* Acessar as três diretamente também, por compatibilidade */
+  --font-text: var(--font-text-theme);
+  --font-interface: var(--font-interface-theme);
+  --font-monospace: var(--font-monospace-theme);
+
+  /* Source Serif 4 fica melhor com tracking levemente apertado em headings */
+  --heading-letter-spacing: -0.012em;
+}
+
+
+/* ============================================================================
+   2. MIRAGE DAWN — light mode
+   Canvas frio, superfícies brancas puras, accent azul vívido
+   ============================================================================ */
+
+.theme-light {
+  /* === Color base (Obsidian native ramp) === */
+  --color-base-00: #eef2f8;
+  --color-base-05: #f3f6fb;
+  --color-base-10: #ffffff;
+  --color-base-20: #ffffff;
+  --color-base-25: #e6ebf3;
+  --color-base-30: #d4dbe6;
+  --color-base-35: #b8c3d4;
+  --color-base-40: #9aa6ba;
+  --color-base-50: #6b7a8f;
+  --color-base-60: #4a5668;
+  --color-base-70: #2d3849;
+  --color-base-100: #1a2435;
+
+  /* === Backgrounds === */
+  --background-primary:        #ffffff;
+  --background-primary-alt:    #f5f7fb;
+  --background-secondary:      #eef2f8;
+  --background-secondary-alt:  #e6ebf3;
+
+  --background-modifier-border:        rgba(15, 30, 60, 0.07);
+  --background-modifier-border-hover:  rgba(15, 30, 60, 0.12);
+  --background-modifier-border-focus:  var(--interactive-accent);
+  --background-modifier-hover:         rgba(15, 30, 60, 0.04);
+  --background-modifier-active-hover:  rgba(74, 125, 191, 0.10);
+  --background-modifier-form-field:    #ffffff;
+
+  /* === Text === */
+  --text-normal:     #1a2435;
+  --text-muted:      #6b7a8f;
+  --text-faint:      #9aa6ba;
+  --text-on-accent:  #ffffff;
+  --text-accent:     #3a72c2;
+  --text-accent-hover: #2d5fa8;
+  --text-selection:  rgba(74, 125, 191, 0.22);
+  --text-highlight-bg: rgba(255, 220, 100, 0.45);
+
+  /* === Interactive accent === */
+  --interactive-accent:        #4a7dbf;
+  --interactive-accent-hover:  #3a6dad;
+  --interactive-accent-rgb:    74, 125, 191;
+
+  /* === Glow RGB (usado pra todos os efeitos azuis) === */
+  --mg-glow-rgb: 74, 125, 191;
+
+  /* === Glass surfaces === */
+  --mg-glass-bg:        rgba(255, 255, 255, 0.85);
+  --mg-glass-bg-strong: rgba(255, 255, 255, 0.97);
+  --mg-glass-border:    rgba(15, 30, 60, 0.07);
+
+  /* === Sombras (light: vazam levemente azuladas) === */
+  --mg-shadow-s:
+    0 1px 2px rgba(15, 30, 60, 0.04),
+    0 2px 6px rgba(15, 30, 60, 0.05);
+  --mg-shadow-m:
+    0 1px 3px  rgba(15, 30, 60, 0.06),
+    0 10px 28px rgba(15, 30, 60, 0.12);
+  --mg-shadow-l:
+    0 2px 6px   rgba(15, 30, 60, 0.08),
+    0 20px 44px rgba(15, 30, 60, 0.17);
+
+  /* === Headings === */
+  --h1-color: #1a2435;
+  --h2-color: #1a2435;
+  --h3-color: #2d3849;
+  --h4-color: #2d3849;
+}
+
+
+/* ============================================================================
+   3. NAVY MIRAGE — dark padrão
+   Navy escuro com accent azul brilhante
+   ============================================================================ */
+
+.theme-dark,
+.theme-dark.navy-mirage {
+  /* === Color base ramp === */
+  --color-base-00: #141E30;
+  --color-base-05: #1a2740;
+  --color-base-10: #1f2d4a;
+  --color-base-20: #243355;
+  --color-base-25: #2a3a60;
+  --color-base-30: #324470;
+  --color-base-35: #3d5285;
+  --color-base-40: #4d6498;
+  --color-base-50: #7488ad;
+  --color-base-60: #95a6c4;
+  --color-base-70: #b5c2d6;
+  --color-base-100: #e8edf5;
+
+  /* === Backgrounds === */
+  --background-primary:        #141E30;
+  --background-primary-alt:    #1a2740;
+  --background-secondary:      #0f1825;
+  --background-secondary-alt:  #1c2940;
+
+  --background-modifier-border:        rgba(255, 255, 255, 0.08);
+  --background-modifier-border-hover:  rgba(255, 255, 255, 0.14);
+  --background-modifier-border-focus:  var(--interactive-accent);
+  --background-modifier-hover:         rgba(255, 255, 255, 0.04);
+  --background-modifier-active-hover:  rgba(110, 168, 230, 0.12);
+  --background-modifier-form-field:    rgba(255, 255, 255, 0.05);
+
+  /* === Text === */
+  --text-normal:     #e8edf5;
+  --text-muted:      #8a96aa;
+  --text-faint:      #5a6478;
+  --text-on-accent:  #ffffff;
+  --text-accent:     #6ea8e6;
+  --text-accent-hover: #88b8ec;
+  --text-selection:  rgba(110, 168, 230, 0.25);
+
+  /* === Interactive accent === */
+  --interactive-accent:        #5a8ac8;
+  --interactive-accent-hover:  #6e9ad5;
+  --interactive-accent-rgb:    90, 138, 200;
+
+  --mg-glow-rgb: 110, 168, 230;
+
+  /* === Glass surfaces === */
+  --mg-glass-bg:        rgba(255, 255, 255, 0.04);
+  --mg-glass-bg-strong: rgba(255, 255, 255, 0.07);
+  --mg-glass-border:    rgba(255, 255, 255, 0.09);
+
+  /* === Sombras (dark: pretas, mais densas) === */
+  --mg-shadow-s:
+    0 1px 2px rgba(0, 0, 0, 0.25),
+    0 2px 6px rgba(0, 0, 0, 0.20);
+  --mg-shadow-m:
+    0 1px 2px  rgba(0, 0, 0, 0.30),
+    0 8px 24px rgba(0, 0, 0, 0.38);
+  --mg-shadow-l:
+    0 2px 4px   rgba(0, 0, 0, 0.42),
+    0 18px 44px rgba(0, 0, 0, 0.50);
+
+  /* === Headings === */
+  --h1-color: #e8edf5;
+  --h2-color: #e8edf5;
+  --h3-color: #c5d0e3;
+  --h4-color: #c5d0e3;
+}
+
+
+/* ============================================================================
+   4. ROYAL CHARCOAL — dark alternativo
+   Cinza escuro neutro, accent prateado
+   ============================================================================ */
+
+.theme-dark.royal-charcoal {
+  --background-primary:        #1e1f22;
+  --background-primary-alt:    #26272b;
+  --background-secondary:      #18191c;
+  --background-secondary-alt:  #2a2b2f;
+
+  --background-modifier-border:        rgba(255, 255, 255, 0.08);
+  --background-modifier-hover:         rgba(255, 255, 255, 0.05);
+  --background-modifier-form-field:    rgba(255, 255, 255, 0.04);
+
+  --text-normal:     #e3e5e8;
+  --text-muted:      #9499a1;
+  --text-faint:      #5e636b;
+  --text-accent:     #c8ced8;
+  --text-accent-hover: #dde2eb;
+
+  --interactive-accent:        #b8bdc7;
+  --interactive-accent-hover:  #cbd0d9;
+  --interactive-accent-rgb:    184, 189, 199;
+
+  --mg-glow-rgb: 180, 185, 200;
+}
+
+
+/* ============================================================================
+   5. WORKSPACE — fundo com gradiente sutil
+   ============================================================================ */
+
+.theme-light .workspace {
+  background:
+    radial-gradient(1400px 700px at 15% -10%, rgba(var(--mg-glow-rgb), 0.10), transparent 60%),
+    radial-gradient(1000px 600px at 100% 110%, rgba(var(--mg-glow-rgb), 0.07), transparent 60%),
+    var(--background-secondary);
+}
+
+.theme-dark .workspace {
+  background:
+    radial-gradient(1400px 700px at 15% -10%, rgba(var(--mg-glow-rgb), 0.08), transparent 60%),
+    radial-gradient(1000px 600px at 100% 110%, rgba(var(--mg-glow-rgb), 0.05), transparent 60%),
+    var(--background-secondary);
+}
+
+/* Painéis do leaf transparentes pro canvas aparecer */
+.workspace-leaf-content,
+.view-content {
+  background: transparent;
+}
+
+/* No light, o conteúdo central vira card flutuante */
+.theme-light .workspace-tabs .workspace-tab-container > .workspace-leaf {
+  background: var(--background-primary);
+  border-radius: var(--mg-radius);
+  margin: 6px;
+  box-shadow: var(--mg-shadow-m);
+  overflow: hidden;
+}
+
+
+/* ============================================================================
+   6. SIDEBARS, RIBBON, TITLEBAR
+   ============================================================================ */
+
+.workspace-ribbon,
+.workspace-split.mod-left-split,
+.workspace-split.mod-right-split,
+.workspace-drawer {
+  background: var(--background-secondary);
+  border-color: var(--background-modifier-border);
+}
+
+.titlebar {
+  background: var(--background-secondary);
+}
+
+/* No light, sidebars ficam brancas em cima do canvas frio */
+.theme-light .workspace-ribbon,
+.theme-light .workspace-split.mod-left-split,
+.theme-light .workspace-split.mod-right-split {
+  background: var(--background-primary);
+  box-shadow: var(--mg-shadow-s);
+}
+
+
+/* ============================================================================
+   7. FILE EXPLORER — items com glow azul no ativo
+   ============================================================================ */
+
+.nav-file-title,
+.nav-folder-title {
+  border-radius: var(--mg-radius-sm);
+  padding: 4px 10px;
+  transition: background var(--mg-trans-fast), box-shadow var(--mg-trans-fast),
+              color var(--mg-trans-fast);
+}
+
+.nav-file-title:hover,
+.nav-folder-title:hover {
+  background: var(--background-modifier-hover);
+}
+
+.nav-file-title.is-active,
+.nav-folder-title.is-active {
+  background: rgba(var(--mg-glow-rgb), 0.10);
+  color: var(--text-accent);
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--mg-glow-rgb), calc(var(--mg-glow) * 0.7)),
+    0 0 14px rgba(var(--mg-glow-rgb), var(--mg-glow));
+}
+
+.nav-folder-collapse-indicator {
+  color: var(--text-faint);
+}
+
+
+/* ============================================================================
+   7B. ÍCONES DE PASTA (fechada / aberta)
+   ----------------------------------------------------------------------------
+   Estrutura real do Obsidian:
+   .nav-folder-title
+     .nav-folder-collapse-indicator  (seta)
+     .nav-folder-title-content       (texto)
+   
+   Usa .nav-folder-title::before pra desenhar o ícone antes do texto.
+   Quando o Iconize injeta um ícone custom, ele o coloca DENTRO de
+   .nav-folder-title-content — como usamos ::before no container pai
+   e não no title-content, não há conflito.
+   ============================================================================ */
+
+/* Pasta fechada — folder */
+.nav-folder > .nav-folder-title::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  margin-right: 5px;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background-color: var(--text-muted);
+  flex-shrink: 0;
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z'/></svg>") no-repeat center / contain;
+          mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z'/></svg>") no-repeat center / contain;
+  transition: background-color var(--mg-trans-fast), opacity var(--mg-trans-fast);
+}
+
+/* Pasta aberta — folder-open */
+.nav-folder:not(.is-collapsed) > .nav-folder-title::before {
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2'/></svg>");
+          mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='m6 14 1.45-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.55 6a2 2 0 0 1-1.94 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.93a2 2 0 0 1 1.66.9l.82 1.2a2 2 0 0 0 1.66.9H18a2 2 0 0 1 2 2v2'/></svg>");
+}
+
+/* Item ativo — cor do accent */
+.nav-folder-title.is-active::before {
+  background-color: var(--text-accent);
+}
+
+/* Hover */
+.nav-folder-title:hover::before {
+  background-color: var(--text-normal);
+}
+
+/* Pasta raiz (sem colapso, ex: vault root) — esconde o ::before */
+.nav-folder.mod-root > .nav-folder-title::before {
+  display: none;
+}
+
+
+/* ============================================================================
+   7C. SIDEBAR — RAINBOW FOLDERS
+   ----------------------------------------------------------------------------
+   Cores por posição na sidebar via nth-child.
+   Configurável via Style Settings (snippet mg-rainbow-folders.css)
+   ou via bloco dataviewjs na Home.md (snippet mg-sidebar-colors.css).
+   ============================================================================ */
+
+/* Variáveis de cor padrão — sobrepostas pelo snippet mg-rainbow-folders.css */
+body {
+  --mg-rf-c1:  #6b7a8f;
+  --mg-rf-c2:  #1e7e6e;
+  --mg-rf-c3:  #6b4fa8;
+  --mg-rf-c4:  #2d6fa8;
+  --mg-rf-c5:  #b05a1a;
+  --mg-rf-c6:  #0f766e;
+  --mg-rf-c7:  #c0444a;
+  --mg-rf-c8:  #7c4dbb;
+  --mg-rf-c9:  #1a6b8a;
+  --mg-rf-c10: #8a6f1a;
+}
+
+/* Cores por posição (ativas quando classe mg-rf-toggle está no body) */
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+1)  { --mg-rf-color: var(--mg-rf-c1); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+2)  { --mg-rf-color: var(--mg-rf-c2); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+3)  { --mg-rf-color: var(--mg-rf-c3); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+4)  { --mg-rf-color: var(--mg-rf-c4); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+5)  { --mg-rf-color: var(--mg-rf-c5); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+6)  { --mg-rf-color: var(--mg-rf-c6); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+7)  { --mg-rf-color: var(--mg-rf-c7); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+8)  { --mg-rf-color: var(--mg-rf-c8); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+9)  { --mg-rf-color: var(--mg-rf-c9); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+10) { --mg-rf-color: var(--mg-rf-c10); }
+
+body.mg-rf-toggle .nav-files-container > div > .nav-folder > .nav-folder-title,
+body.mg-rf-toggle .nav-files-container > div > .nav-folder > .nav-folder-title .nav-folder-title-content {
+  color: var(--mg-rf-color) !important;
+}
+
+body.mg-rf-toggle .nav-files-container > div > .nav-folder .nav-folder-children .nav-folder-title,
+body.mg-rf-toggle .nav-files-container > div > .nav-folder .nav-folder-children .nav-file-title {
+  color: color-mix(in srgb, var(--mg-rf-color) 70%, var(--text-normal) 30%) !important;
+}
+
+body.mg-rf-toggle.mg-rf-bg .nav-files-container > div > .nav-folder > .nav-folder-title {
+  background: color-mix(in srgb, var(--mg-rf-color) 12%, transparent) !important;
+  border-radius: 6px;
+}
+
+body.mg-rf-toggle.mg-rf-bg .nav-files-container > div > .nav-folder > .nav-folder-title:hover {
+  background: color-mix(in srgb, var(--mg-rf-color) 22%, transparent) !important;
+}
+
+body.mg-rf-toggle .nav-files-container > div > .nav-folder > .nav-folder-title.is-active {
+  box-shadow: inset 3px 0 0 var(--mg-rf-color) !important;
+}
+
+/* Classes injetadas via dataviewjs (método alternativo) */
+body .nav-folder.mg-_Templates > .nav-folder-title { --mg-rf-color: var(--mg-rf-c1); color: var(--mg-rf-c1) !important; }
+body .nav-folder.mg-Atlas     > .nav-folder-title { --mg-rf-color: var(--mg-rf-c2); color: var(--mg-rf-c2) !important; }
+body .nav-folder.mg-Calendar  > .nav-folder-title { --mg-rf-color: var(--mg-rf-c3); color: var(--mg-rf-c3) !important; }
+body .nav-folder.mg-Personal  > .nav-folder-title { --mg-rf-color: var(--mg-rf-c4); color: var(--mg-rf-c4) !important; }
+body .nav-folder.mg-IT        > .nav-folder-title { --mg-rf-color: var(--mg-rf-c5); color: var(--mg-rf-c5) !important; }
+body .nav-folder.mg-Obsidian  > .nav-folder-title { --mg-rf-color: var(--mg-rf-c6); color: var(--mg-rf-c6) !important; }
+body .nav-folder.mg-Work      > .nav-folder-title { --mg-rf-color: var(--mg-rf-c7); color: var(--mg-rf-c7) !important; }
+
+body .nav-folder[class*="mg-"] > .nav-folder-title {
+  background: color-mix(in srgb, var(--mg-rf-color) 12%, transparent) !important;
+  border-radius: 6px;
+}
+body .nav-folder[class*="mg-"] > .nav-folder-title:hover {
+  background: color-mix(in srgb, var(--mg-rf-color) 22%, transparent) !important;
+}
+body .nav-folder[class*="mg-"] .nav-folder-children .nav-folder-title,
+body .nav-folder[class*="mg-"] .nav-folder-children .nav-file-title {
+  color: color-mix(in srgb, var(--mg-rf-color) 70%, var(--text-normal) 30%) !important;
+}
+
+
+/* ============================================================================
+   8. TABS
+   ============================================================================ */
+
+.workspace-tab-container,
+.workspace-tab-header-container {
+  background: transparent;
+}
+
+.workspace-tab-header {
+  border-radius: var(--mg-radius-sm) var(--mg-radius-sm) 0 0;
+  transition: background var(--mg-trans-fast);
+}
+
+.workspace-tab-header:hover {
+  background: var(--background-modifier-hover);
+}
+
+.workspace-tab-header.is-active {
+  background: var(--background-primary);
+  box-shadow:
+    inset 0 2px 0 var(--interactive-accent),
+    var(--mg-shadow-s);
+}
+
+
+/* ============================================================================
+   9. CALLOUTS — os cards-estrela do visual glass
+   ============================================================================ */
+
+.callout {
+  background: var(--mg-glass-bg-strong);
+  backdrop-filter: blur(var(--mg-blur));
+  -webkit-backdrop-filter: blur(var(--mg-blur));
+  border: 1px solid var(--mg-glass-border);
+  border-radius: var(--mg-radius);
+  box-shadow: var(--mg-shadow-m);
+  padding: 16px 20px;
+  margin: 18px 0;
+  transition: box-shadow var(--mg-trans-med), transform 0.2s ease;
+}
+
+.callout:hover {
+  box-shadow: var(--mg-shadow-l);
+  transform: translateY(-1px);
+}
+
+.callout-title {
+  padding-bottom: 6px;
+  font-weight: 600;
+}
+
+.callout-icon {
+  margin-right: 6px;
+}
+
+
+/* ============================================================================
+   10. INPUTS, SEARCH, TEXTAREAS
+   ============================================================================ */
+
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+textarea,
+.prompt-input,
+.search-input-container input,
+.metadata-input-longtext {
+  background: var(--background-modifier-form-field);
+  color: var(--text-normal);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--mg-radius-sm);
+  padding: 8px 12px;
+  transition: border-color var(--mg-trans-fast), box-shadow var(--mg-trans-fast);
+}
+
+input[type="text"]:focus,
+input[type="search"]:focus,
+input[type="email"]:focus,
+input[type="number"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+.prompt-input:focus,
+.search-input-container input:focus {
+  border-color: var(--interactive-accent);
+  box-shadow:
+    0 0 0 3px rgba(var(--mg-glow-rgb), calc(var(--mg-glow) * 0.5)),
+    0 0 20px rgba(var(--mg-glow-rgb), var(--mg-glow));
+  outline: none;
+}
+
+
+/* ============================================================================
+   11. BOTÕES
+   ============================================================================ */
+
+button:not(.clickable-icon):not(.suggestion-item),
+.setting-item button {
+  background: var(--background-primary);
+  color: var(--text-normal);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--mg-radius-sm);
+  padding: 6px 14px;
+  box-shadow: var(--mg-shadow-s);
+  transition: box-shadow var(--mg-trans-fast), transform 0.12s ease,
+              background var(--mg-trans-fast);
+}
+
+button:not(.clickable-icon):not(.suggestion-item):hover,
+.setting-item button:hover {
+  box-shadow: var(--mg-shadow-m);
+}
+
+button:not(.clickable-icon):not(.suggestion-item):active,
+.setting-item button:active {
+  transform: translateY(1px);
+}
+
+/* CTA — botão principal com gradiente + glow forte */
+.mod-cta,
+button.mod-cta {
+  background: linear-gradient(180deg,
+    var(--interactive-accent),
+    var(--interactive-accent-hover));
+  color: var(--text-on-accent);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    var(--mg-shadow-m),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 0 22px rgba(var(--mg-glow-rgb), calc(var(--mg-glow) * 0.95));
+}
+
+.mod-cta:hover,
+button.mod-cta:hover {
+  box-shadow:
+    var(--mg-shadow-l),
+    inset 0 1px 0 rgba(255, 255, 255, 0.30),
+    0 0 30px rgba(var(--mg-glow-rgb), var(--mg-glow));
+}
+
+
+/* ============================================================================
+   12. CLICKABLE ICONS
+   ============================================================================ */
+
+.clickable-icon {
+  border-radius: var(--mg-radius-sm);
+  color: var(--text-muted);
+  transition: background var(--mg-trans-fast), box-shadow var(--mg-trans-fast),
+              color var(--mg-trans-fast);
+}
+
+.clickable-icon:hover {
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.clickable-icon.is-active {
+  background: rgba(var(--mg-glow-rgb), 0.10);
+  color: var(--text-accent);
+  box-shadow:
+    inset 0 0 0 1px rgba(var(--mg-glow-rgb), calc(var(--mg-glow) * 0.6)),
+    0 0 12px rgba(var(--mg-glow-rgb), calc(var(--mg-glow) * 0.7));
+}
+
+
+/* ============================================================================
+   13. TOGGLES & CHECKBOXES
+   ============================================================================ */
+
+.checkbox-container {
+  background: var(--background-modifier-border);
+  border-radius: 999px;
+  transition: background var(--mg-trans-fast), box-shadow var(--mg-trans-fast);
+}
+
+.checkbox-container.is-enabled {
+  background: var(--interactive-accent);
+  box-shadow: 0 0 14px rgba(var(--mg-glow-rgb), var(--mg-glow));
+}
+
+/* Task checkboxes */
+.task-list-item-checkbox {
+  border-radius: 6px;
+  border: 1.5px solid var(--background-modifier-border);
+  transition: background-color var(--mg-trans-fast), box-shadow var(--mg-trans-fast),
+              border-color var(--mg-trans-fast);
+}
+
+.task-list-item-checkbox:checked {
+  background-color: var(--interactive-accent);
+  border-color: var(--interactive-accent);
+  box-shadow: 0 0 12px rgba(var(--mg-glow-rgb), calc(var(--mg-glow) * 0.95));
+}
+
+
+/* ============================================================================
+   14. MODAIS, MENUS, SUGGESTIONS, TOOLTIPS — glass denso
+   ============================================================================ */
+
+.modal,
+.suggestion-container,
+.menu,
+.tooltip,
+.popover {
+  background: var(--mg-glass-bg-strong);
+  color: var(--text-normal);
+  backdrop-filter: blur(calc(var(--mg-blur) * 1.5));
+  -webkit-backdrop-filter: blur(calc(var(--mg-blur) * 1.5));
+  border: 1px solid var(--mg-glass-border);
+  border-radius: var(--mg-radius);
+  box-shadow: var(--mg-shadow-l);
+}
+
+/* Garantir contraste em todos os elementos internos */
+.modal *,
+.suggestion-container *,
+.menu *,
+.tooltip,
+.tooltip *,
+.popover,
+.popover * {
+  color: inherit;
+}
+
+.modal .modal-title,
+.suggestion-item,
+.menu-item,
+.tooltip,
+.popover {
+  color: var(--text-normal);
+}
+
+.menu-item-icon,
+.suggestion-item .suggestion-aux {
+  color: var(--text-muted);
+}
+
+.modal-bg {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.suggestion-item.is-selected,
+.menu-item.selected {
+  background: rgba(var(--mg-glow-rgb), 0.15);
+  color: var(--text-accent);
+  border-radius: var(--mg-radius-sm);
+}
+
+
+/* ============================================================================
+   15. HEADINGS & TYPOGRAPHY
+   ============================================================================ */
+
+.markdown-preview-view h1,
+.markdown-preview-view h2,
+.markdown-preview-view h3,
+.markdown-preview-view h4 {
+  font-weight: 700;
+  letter-spacing: var(--heading-letter-spacing);
+}
+
+.markdown-preview-view h1 { color: var(--h1-color); }
+.markdown-preview-view h2 { color: var(--h2-color); }
+.markdown-preview-view h3 { color: var(--h3-color); }
+.markdown-preview-view h4 { color: var(--h4-color); }
+
+/* Linhas decorativas finas embaixo de h1/h2 */
+.markdown-preview-view h1 {
+  border-bottom: 1px solid var(--background-modifier-border);
+  padding-bottom: 0.3em;
+}
+
+
+/* ============================================================================
+   16. LINKS & TAGS
+   ============================================================================ */
+
+a.internal-link,
+a.external-link {
+  color: var(--text-accent);
+  text-decoration: none;
+  transition: color var(--mg-trans-fast), text-shadow var(--mg-trans-fast);
+}
+
+a.internal-link:hover,
+a.external-link:hover {
+  color: var(--text-accent-hover);
+  text-shadow: 0 0 8px rgba(var(--mg-glow-rgb), calc(var(--mg-glow) * 1.2));
+}
+
+.tag {
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  color: var(--text-accent);
+  border-radius: 999px;
+  padding: 2px 10px;
+  font-size: 0.85em;
+  transition: box-shadow var(--mg-trans-fast);
+}
+
+.tag:hover {
+  box-shadow: 0 0 12px rgba(var(--mg-glow-rgb), calc(var(--mg-glow) * 0.9));
+}
+
+
+/* ============================================================================
+   17. CODE BLOCKS
+   ============================================================================ */
+
+pre,
+.markdown-source-view.mod-cm6 .HyperMD-codeblock-bg {
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--mg-radius-sm);
+  box-shadow: var(--mg-shadow-s);
+}
+
+pre {
+  padding: 14px 18px;
+}
+
+code {
+  background: var(--background-secondary);
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 0.92em;
+  font-family: var(--font-monospace);
+}
+
+
+/* ============================================================================
+   18. TABELAS
+   ============================================================================ */
+
+.markdown-preview-view table,
+.markdown-rendered table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: var(--mg-radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--background-modifier-border);
+  box-shadow: var(--mg-shadow-s);
+}
+
+.markdown-preview-view th,
+.markdown-rendered th {
+  background: var(--background-secondary);
+  font-weight: 600;
+  text-align: left;
+}
+
+.markdown-preview-view th,
+.markdown-preview-view td,
+.markdown-rendered th,
+.markdown-rendered td {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.markdown-preview-view tr:last-child td,
+.markdown-rendered tr:last-child td {
+  border-bottom: none;
+}
+
+
+/* ============================================================================
+   19. STATUS BAR
+   ============================================================================ */
+
+.status-bar {
+  background: var(--mg-glass-bg);
+  backdrop-filter: blur(var(--mg-blur));
+  -webkit-backdrop-filter: blur(var(--mg-blur));
+  border-top: 1px solid var(--background-modifier-border);
+  color: var(--text-muted);
+}
+
+
+/* ============================================================================
+   20. SCROLLBARS
+   ============================================================================ */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--background-modifier-border);
+  border-radius: 999px;
+  transition: background var(--mg-trans-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+}
+
+
+/* ============================================================================
+   21. EDITOR (CodeMirror 6)
+   ============================================================================ */
+
+.markdown-source-view.mod-cm6 .cm-scroller {
+  border-radius: var(--mg-radius);
+}
+
+.cm-active.cm-line {
+  background: var(--background-modifier-hover);
+}
+
+.cm-line .cm-strong { font-weight: 700; }
+.cm-line .cm-em { font-style: italic; }
+
+
+/* ============================================================================
+   22. SETTINGS PANE — pequenos refinamentos
+   ============================================================================ */
+
+.setting-item {
+  border-top: 1px solid var(--background-modifier-border);
+  padding: 14px 0;
+}
+
+.setting-item-info .setting-item-name {
+  font-weight: 600;
+}
+
+.setting-item-info .setting-item-description {
+  color: var(--text-muted);
+}
+
+
+/* ============================================================================
+   23. GRAPH VIEW
+   ============================================================================ */
+
+.graph-view.color-fill {
+  color: var(--interactive-accent);
+}
+
+.graph-view.color-line {
+  color: var(--text-faint);
+}
+
+.graph-view.color-text {
+  color: var(--text-normal);
+}
+
+
+/* ============================================================================
+   FIM
+   ============================================================================ */

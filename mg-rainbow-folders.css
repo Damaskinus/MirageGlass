@@ -1,0 +1,151 @@
+/* ============================================================
+   Mirage Glass — Rainbow Folders
+   Cores por posição na sidebar, customizáveis via Style Settings.
+   Funciona em Obsidian 1.12+ sem plugins adicionais.
+   ============================================================ */
+
+/* @settings
+name: Mirage Glass — Rainbow Folders
+id: mg-rainbow-folders
+settings:
+  -
+    id: mg-rf-toggle
+    title: Ativar Rainbow Folders
+    type: class-toggle
+    default: false
+    addCommand: true
+  -
+    id: mg-rf-bg
+    title: Mostrar fundo colorido
+    description: Adiciona fundo sutil na cor da pasta
+    type: class-toggle
+    default: false
+  -
+    id: mg-rf-c1
+    title: Pasta 1
+    type: variable-color
+    default: '#6b7a8f'
+    format: hex
+    opacity: false
+  -
+    id: mg-rf-c2
+    title: Pasta 2
+    type: variable-color
+    default: '#1e7e6e'
+    format: hex
+    opacity: false
+  -
+    id: mg-rf-c3
+    title: Pasta 3
+    type: variable-color
+    default: '#6b4fa8'
+    format: hex
+    opacity: false
+  -
+    id: mg-rf-c4
+    title: Pasta 4
+    type: variable-color
+    default: '#2d6fa8'
+    format: hex
+    opacity: false
+  -
+    id: mg-rf-c5
+    title: Pasta 5
+    type: variable-color
+    default: '#b05a1a'
+    format: hex
+    opacity: false
+  -
+    id: mg-rf-c6
+    title: Pasta 6
+    type: variable-color
+    default: '#0f766e'
+    format: hex
+    opacity: false
+  -
+    id: mg-rf-c7
+    title: Pasta 7
+    type: variable-color
+    default: '#c0444a'
+    format: hex
+    opacity: false
+  -
+    id: mg-rf-c8
+    title: Pasta 8
+    type: variable-color
+    default: '#7c4dbb'
+    format: hex
+    opacity: false
+  -
+    id: mg-rf-c9
+    title: Pasta 9
+    type: variable-color
+    default: '#1a6b8a'
+    format: hex
+    opacity: false
+  -
+    id: mg-rf-c10
+    title: Pasta 10
+    type: variable-color
+    default: '#8a6f1a'
+    format: hex
+    opacity: false
+*/
+
+/* Variáveis padrão (usadas se Style Settings não estiver instalado) */
+body {
+  --mg-rf-c1:  #6b7a8f;
+  --mg-rf-c2:  #1e7e6e;
+  --mg-rf-c3:  #6b4fa8;
+  --mg-rf-c4:  #2d6fa8;
+  --mg-rf-c5:  #b05a1a;
+  --mg-rf-c6:  #0f766e;
+  --mg-rf-c7:  #c0444a;
+  --mg-rf-c8:  #7c4dbb;
+  --mg-rf-c9:  #1a6b8a;
+  --mg-rf-c10: #8a6f1a;
+}
+
+/* ── Aplicar cores só quando o toggle estiver ativo ──────── */
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+1)  { --mg-rf-color: var(--mg-rf-c1); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+2)  { --mg-rf-color: var(--mg-rf-c2); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+3)  { --mg-rf-color: var(--mg-rf-c3); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+4)  { --mg-rf-color: var(--mg-rf-c4); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+5)  { --mg-rf-color: var(--mg-rf-c5); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+6)  { --mg-rf-color: var(--mg-rf-c6); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+7)  { --mg-rf-color: var(--mg-rf-c7); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+8)  { --mg-rf-color: var(--mg-rf-c8); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+9)  { --mg-rf-color: var(--mg-rf-c9); }
+body.mg-rf-toggle .nav-files-container > div > .nav-folder:nth-child(10n+10) { --mg-rf-color: var(--mg-rf-c10); }
+
+/* Subpastas herdam a cor da pasta raiz */
+body.mg-rf-toggle .nav-files-container > div > .nav-folder > .nav-folder-children .nav-folder {
+  --mg-rf-color: inherit;
+}
+
+/* ── Cor do texto ───────────────────────────────────────── */
+body.mg-rf-toggle .nav-files-container > div > .nav-folder > .nav-folder-title,
+body.mg-rf-toggle .nav-files-container > div > .nav-folder > .nav-folder-title .nav-folder-title-content {
+  color: var(--mg-rf-color) !important;
+}
+
+/* Subpastas: tom mais claro (opacity) */
+body.mg-rf-toggle .nav-files-container > div > .nav-folder .nav-folder-children .nav-folder-title,
+body.mg-rf-toggle .nav-files-container > div > .nav-folder .nav-folder-children .nav-file-title {
+  color: color-mix(in srgb, var(--mg-rf-color) 70%, var(--text-normal) 30%) !important;
+}
+
+/* ── Fundo colorido (opcional) ──────────────────────────── */
+body.mg-rf-toggle.mg-rf-bg .nav-files-container > div > .nav-folder > .nav-folder-title {
+  background: color-mix(in srgb, var(--mg-rf-color) 12%, transparent) !important;
+  border-radius: 6px;
+}
+
+body.mg-rf-toggle.mg-rf-bg .nav-files-container > div > .nav-folder > .nav-folder-title:hover {
+  background: color-mix(in srgb, var(--mg-rf-color) 22%, transparent) !important;
+}
+
+/* ── Borda esquerda no item ativo ───────────────────────── */
+body.mg-rf-toggle .nav-files-container > div > .nav-folder > .nav-folder-title.is-active {
+  box-shadow: inset 3px 0 0 var(--mg-rf-color) !important;
+}
